@@ -1,5 +1,6 @@
 package org.jonas.rolemate_backend.config.security;
 
+import org.jonas.rolemate_backend.user.model.entity.CustomUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -15,16 +16,15 @@ public class CustomUserDetails implements UserDetails {
     private final boolean isCredentialsNonExpired;
     private final boolean isEnabled;
 
-    public CustomUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities, boolean isAccountNonExpired, boolean isAccountNonLocked, boolean isCredentialsNonExpired, boolean isEnabled) {
-        this.username = username;
-        this.password = password;
-        this.authorities = authorities;
-        this.isAccountNonExpired = isAccountNonExpired;
-        this.isAccountNonLocked = isAccountNonLocked;
-        this.isCredentialsNonExpired = isCredentialsNonExpired;
-        this.isEnabled = isEnabled;
+    public CustomUserDetails(CustomUser customUser) {
+        this.username = customUser.getUsername();
+        this.password = customUser.getPassword();
+        this.authorities = customUser.getAuthorities();
+        this.isAccountNonExpired = customUser.isAccountNonExpired();
+        this.isAccountNonLocked = customUser.isAccountNonLocked();
+        this.isCredentialsNonExpired = customUser.isCredentialsNonExpired();
+        this.isEnabled = customUser.isEnabled();
     }
-
 
     @Override
     public String getUsername() {
