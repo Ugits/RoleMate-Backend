@@ -1,6 +1,10 @@
 package org.jonas.rolemate_backend.user.model.entity;
-
+import org.jonas.rolemate_backend.user.authorites.UserRole;
 import jakarta.persistence.*;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.List;
+
 
 @Entity
 @Table(name = "user")
@@ -9,19 +13,21 @@ public class CustomUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String username;
     private String password;
-    private String role;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
     private boolean isAccountNonExpired;
     private boolean isAccountNonLocked;
     private boolean isCredentialsNonExpired;
     private boolean isEnabled;
 
     public CustomUser() {
+
     }
 
-    public CustomUser(String username, String password, String role, boolean isAccountNonExpired, boolean isAccountNonLocked, boolean isCredentialsNonExpired, boolean isEnabled) {
+    public CustomUser(String username, String password, UserRole role, boolean isAccountNonExpired, boolean isAccountNonLocked, boolean isCredentialsNonExpired, boolean isEnabled) {
         this.username = username;
         this.password = password;
         this.role = role;
@@ -29,6 +35,10 @@ public class CustomUser {
         this.isAccountNonLocked = isAccountNonLocked;
         this.isCredentialsNonExpired = isCredentialsNonExpired;
         this.isEnabled = isEnabled;
+    }
+
+    public List<SimpleGrantedAuthority> getAuthorities() {
+        return role.getAuthorities();
     }
 
     public Long getId() {
@@ -51,11 +61,11 @@ public class CustomUser {
         this.password = password;
     }
 
-    public String getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 
