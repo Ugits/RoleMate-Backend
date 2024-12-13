@@ -26,6 +26,8 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 /src/main/resources/application.properties
+/src/main/java/org/jonas/rolemate_backend/devtools
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
