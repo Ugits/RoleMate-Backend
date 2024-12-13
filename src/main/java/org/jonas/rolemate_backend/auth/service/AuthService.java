@@ -45,7 +45,7 @@ public class AuthService {
                         authentication.getAuthorities()
                                 .stream()
                                 .map(GrantedAuthority::getAuthority)
-                                .filter(authority -> authority.startsWith("Role"))
+                                .filter(authority -> authority.startsWith("ROLE_"))
                                 .findFirst()
                                 .orElseThrow(() -> new IllegalStateException("User has no role"))
                                 .substring(5)
