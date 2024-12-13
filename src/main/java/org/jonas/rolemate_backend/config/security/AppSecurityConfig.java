@@ -1,6 +1,8 @@
 package org.jonas.rolemate_backend.config.security;
 
 import org.jonas.rolemate_backend.auth.jwt.JwtFilter;
+import org.jonas.rolemate_backend.exception.spring.RestAccessDeniedHandler;
+import org.jonas.rolemate_backend.exception.spring.RestAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,18 +27,21 @@ public class AppSecurityConfig {
     private final CustomUserDetailsService customUserDetailsService;
     private final CorsConfigurationSource corsConfigurationSource;
     private final JwtFilter jwtFilter;
-    private final AuthenticationEntryPoint authenticationEntryPoint;
+    private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+    private final RestAccessDeniedHandler restAccessDeniedHandler;
 
     @Autowired
     public AppSecurityConfig(PasswordEncoder passwordEncoder,
                              CustomUserDetailsService customUserDetailsService,
                              CorsConfigurationSource corsConfigurationSource,
-                             JwtFilter jwtFilter, AuthenticationEntryPoint authenticationEntryPoint) {
+                             JwtFilter jwtFilter,
+                             RestAuthenticationEntryPoint restAuthenticationEntryPoint, RestAccessDeniedHandler restAccessDeniedHandler) {
         this.passwordEncoder = passwordEncoder;
         this.customUserDetailsService = customUserDetailsService;
         this.corsConfigurationSource = corsConfigurationSource;
         this.jwtFilter = jwtFilter;
-        this.authenticationEntryPoint = authenticationEntryPoint;
+        this.restAuthenticationEntryPoint = restAuthenticationEntryPoint;
+        this.restAccessDeniedHandler = restAccessDeniedHandler;
     }
 
     @Bean
@@ -54,7 +59,9 @@ public class AppSecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(httpSecurityExceptionHandlingConfigurer -> httpSecurityExceptionHandlingConfigurer
-                        .authenticationEntryPoint(authenticationEntryPoint))
+                        .authenticationEntryPoint(restAuthenticationEntryPoint)
+                        .accessDeniedHandler(restAccessDeniedHandler)
+                )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .authenticationProvider(authenticationProvider())
                 .logout(logout -> logout
