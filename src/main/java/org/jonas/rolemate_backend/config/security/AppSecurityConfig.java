@@ -54,8 +54,8 @@ public class AppSecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/auth/**").permitAll()
-                        .requestMatchers("/dev/**").hasRole("ADMIN")
+                        .requestMatchers("/", "/auth/**", "/dev/**").permitAll()
+                        //.requestMatchers("/dev/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(httpSecurityExceptionHandlingConfigurer -> httpSecurityExceptionHandlingConfigurer
