@@ -9,7 +9,7 @@ public record SignupRequestDTO(
         String username,
 
         @NotBlank(message = "Password cannot be blank")
-        @Size(min = 7, max = 30, message = "Password size bust be between 7 and 30 characters")
+        @Size(min = 7, max = 36, message = "Password size bust be between 7 and 36 characters")
         String password
 ) {
 }
