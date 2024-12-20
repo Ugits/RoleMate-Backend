@@ -56,7 +56,7 @@ public class AppSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/auth/**", "/user/register").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/dev/**").permitAll()  // TODO - ONLY FOR DEV
+                        .requestMatchers("/dev/**", "/user/delete-me").permitAll()  // TODO - ONLY FOR DEV
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(httpSecurityExceptionHandlingConfigurer -> httpSecurityExceptionHandlingConfigurer

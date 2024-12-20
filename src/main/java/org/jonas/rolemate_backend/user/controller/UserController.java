@@ -27,7 +27,7 @@ public class UserController {
         return userService.createUser(signupRequestDTO);
     }
 
-    @GetMapping("/deleteMe")
+    @DeleteMapping("/delete-me")
     public ResponseEntity<UserCredentialsDTO> deleteMe(Authentication authentication) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(userService.deleteAuthenticatedUser(authentication));
     }
