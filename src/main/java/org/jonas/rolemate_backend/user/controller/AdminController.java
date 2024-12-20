@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.jonas.rolemate_backend.user.model.dto.SignupRequestDTO;
 import org.jonas.rolemate_backend.user.model.dto.UpdateAccountStatusDTO;
 import org.jonas.rolemate_backend.user.model.dto.UserCredentialsDTO;
+import org.jonas.rolemate_backend.user.model.dto.UsernameDTO;
 import org.jonas.rolemate_backend.user.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,12 @@ public class AdminController {
     @PatchMapping("/user/status")
     public ResponseEntity<Void> updateStatus(@RequestBody @Valid UpdateAccountStatusDTO updateAccountStatusDTO) {
         adminService.updateAccountStatus(updateAccountStatusDTO);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @DeleteMapping("/user/delete")
+    public ResponseEntity<Void> deleteUser(@RequestBody @Valid UsernameDTO user) {
+        adminService.deleteAccount(user);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

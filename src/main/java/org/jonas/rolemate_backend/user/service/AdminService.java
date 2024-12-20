@@ -6,6 +6,7 @@ import org.jonas.rolemate_backend.user.authorites.UserRole;
 import org.jonas.rolemate_backend.user.model.dto.SignupRequestDTO;
 import org.jonas.rolemate_backend.user.model.dto.UpdateAccountStatusDTO;
 import org.jonas.rolemate_backend.user.model.dto.UserCredentialsDTO;
+import org.jonas.rolemate_backend.user.model.dto.UsernameDTO;
 import org.jonas.rolemate_backend.user.model.entity.CustomUser;
 import org.jonas.rolemate_backend.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,4 +57,11 @@ public class AdminService {
         userRepository.save(customUser);
     }
 
+    public void deleteAccount(UsernameDTO user) {
+
+        CustomUser customUser = userRepository.findByUsername(user.username())
+                .orElseThrow(() -> new UsernameNotFoundException("Username " + user.username() + " not found"));
+
+        userRepository.delete(customUser);
+    }
 }
