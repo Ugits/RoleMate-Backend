@@ -1,14 +1,15 @@
 package org.jonas.rolemate_backend.user.service;
 
+import jakarta.validation.Valid;
 import org.jonas.rolemate_backend.exception.UserAlreadyExistsException;
 import org.jonas.rolemate_backend.user.authorites.UserRole;
 import org.jonas.rolemate_backend.user.model.dto.SignupRequestDTO;
+import org.jonas.rolemate_backend.user.model.dto.UpdateAccountStatusDTO;
 import org.jonas.rolemate_backend.user.model.dto.UserCredentialsDTO;
 import org.jonas.rolemate_backend.user.model.entity.CustomUser;
 import org.jonas.rolemate_backend.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +27,7 @@ public class AdminService {
     }
 
     @Transactional
-    public ResponseEntity<UserCredentialsDTO> createAdmin(SignupRequestDTO signupRequestDTO) {
+    public UserCredentialsDTO createAdmin(SignupRequestDTO signupRequestDTO) {
 
         CustomUser customUser = new CustomUser(
                 signupRequestDTO.username(),
@@ -43,7 +44,16 @@ public class AdminService {
         }
 
         userRepository.save(customUser);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new UserCredentialsDTO(customUser.getUsername(),customUser.getPassword()));
+        return new UserCredentialsDTO(customUser.getUsername(),customUser.getPassword());
 
     }
+
+    public void updateAccountStatus(UpdateAccountStatusDTO updateAccountStatusDTO) {
+        CustomUser customUser = userRepository.findByUsername(updateAccountStatusDTO.username())
+                .orElseThrow(() -> new UsernameNotFoundException("Username " + updateAccountStatusDTO.username() + " not found"));
+
+        customUser.setEnabled(updateAccountStatusDTO.isEnabled());
+        userRepository.save(customUser);
+    }
+
 }

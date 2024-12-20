@@ -28,7 +28,7 @@ public class UserService {
     }
 
     @Transactional
-    public ResponseEntity<UserCredentialsDTO> createUser(SignupRequestDTO signupRequestDTO) {
+    public UserCredentialsDTO createUser(SignupRequestDTO signupRequestDTO) {
 
         CustomUser customUser = new CustomUser(
                 signupRequestDTO.username(),
@@ -45,19 +45,15 @@ public class UserService {
         }
 
         userRepository.save(customUser);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new UserCredentialsDTO(customUser.getUsername(), customUser.getPassword()));
+        return new UserCredentialsDTO(customUser.getUsername(), customUser.getPassword());
     }
 
-    public UserCredentialsDTO deleteAuthenticatedUser(Authentication authentication) {
+    public void deleteAuthenticatedUser(Authentication authentication) {
 
         if ((authentication != null && authentication.isAuthenticated())) {
-            return
-                    userRepository.findByUsername(authentication.getName())
-                            .map(customUser -> {
-                                userRepository.delete(customUser);
-                                return new UserCredentialsDTO(customUser.getUsername(), customUser.getPassword());
-                            })
-                            .orElseThrow(() -> new UsernameNotFoundException("Username " + authentication.getName() + " not found"));
+            userRepository.findByUsername(authentication.getName())
+                    .ifPresent(userRepository::delete);
+            return;
         }
         throw new IllegalStateException("Not authentication found");
     }

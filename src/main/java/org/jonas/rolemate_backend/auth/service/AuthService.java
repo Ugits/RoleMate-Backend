@@ -17,15 +17,11 @@ public class AuthService {
 
     private final AuthenticationManager authenticationManager;
     private final JWTService jwtService;
-    private final PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
 
     @Autowired
-    public AuthService(AuthenticationManager authenticationManager, JWTService jwtService, PasswordEncoder passwordEncoder, UserRepository userRepository) {
+    public AuthService(AuthenticationManager authenticationManager, JWTService jwtService) {
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
-        this.passwordEncoder = passwordEncoder;
-        this.userRepository = userRepository;
     }
 
     public AuthResponse verify(AuthRequest authRequest) {

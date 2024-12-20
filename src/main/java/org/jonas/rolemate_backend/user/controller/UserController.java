@@ -21,15 +21,15 @@ public class UserController {
         this.userService = userService;
     }
 
-
     @PostMapping("/register")
     public ResponseEntity<UserCredentialsDTO> register(@RequestBody @Valid SignupRequestDTO signupRequestDTO) {
-        return userService.createUser(signupRequestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(signupRequestDTO));
     }
 
     @DeleteMapping("/delete-me")
     public ResponseEntity<UserCredentialsDTO> deleteMe(Authentication authentication) {
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(userService.deleteAuthenticatedUser(authentication));
+        userService.deleteAuthenticatedUser(authentication);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 
