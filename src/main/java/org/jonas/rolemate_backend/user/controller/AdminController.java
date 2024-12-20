@@ -22,6 +22,9 @@ public class AdminController {
         this.adminService = adminService;
     }
 
-
+    @PostMapping("/register")
+    public ResponseEntity<UserCredentialsDTO> register(@RequestBody @Valid SignupRequestDTO signupRequestDTO) {
+        return adminService.createAdmin(signupRequestDTO);
+    }
 
 }

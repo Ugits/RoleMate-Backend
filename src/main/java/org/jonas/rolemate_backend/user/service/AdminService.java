@@ -25,5 +25,25 @@ public class AdminService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Transactional
+    public ResponseEntity<UserCredentialsDTO> createAdmin(SignupRequestDTO signupRequestDTO) {
 
+        CustomUser customUser = new CustomUser(
+                signupRequestDTO.username(),
+                passwordEncoder.encode(signupRequestDTO.password()),
+                UserRole.ADMIN,
+                true,
+                true,
+                true,
+                true
+        );
+
+        if (userRepository.findByUsernameIgnoreCase(customUser.getUsername()).isPresent()) {
+            throw new UserAlreadyExistsException("Username " + signupRequestDTO.username() + " is already taken");
+        }
+
+        userRepository.save(customUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new UserCredentialsDTO(customUser.getUsername(),customUser.getPassword()));
+
+    }
 }
