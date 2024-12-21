@@ -53,7 +53,7 @@ public class AdminService {
 
     }
 
-    public void updateAccountStatus(UpdateAccountStatusDTO updateAccountStatusDTO, Authentication authentication) {
+    public UsernameDTO updateAccountStatus(UpdateAccountStatusDTO updateAccountStatusDTO, Authentication authentication) {
 
         if ((authentication != null && authentication.isAuthenticated())) {
             if (Objects.equals(authentication.getName(), updateAccountStatusDTO.username())) {
@@ -65,10 +65,10 @@ public class AdminService {
                 .orElseThrow(() -> new UsernameNotFoundException("Username " + updateAccountStatusDTO.username() + " not found"));
 
         customUser.setEnabled(updateAccountStatusDTO.isEnabled());
-        userRepository.save(customUser);
+        return new UsernameDTO(userRepository.save(customUser).getUsername());
     }
 
-    public void deleteAccount(UsernameDTO user, Authentication authentication) {
+    public UsernameDTO deleteAccount(UsernameDTO user, Authentication authentication) {
 
         if ((authentication != null && authentication.isAuthenticated())) {
             if (Objects.equals(authentication.getName(), user.username())) {
@@ -80,5 +80,6 @@ public class AdminService {
                 .orElseThrow(() -> new UsernameNotFoundException("Username " + user.username() + " not found"));
 
         userRepository.delete(customUser);
+        return new UsernameDTO(customUser.getUsername());
     }
 }

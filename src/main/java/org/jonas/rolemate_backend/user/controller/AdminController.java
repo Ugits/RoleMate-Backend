@@ -29,15 +29,13 @@ public class AdminController {
     }
 
     @PatchMapping("/user/status")
-    public ResponseEntity<Void> updateStatus(@RequestBody @Valid UpdateAccountStatusDTO updateAccountStatusDTO, Authentication authentication) {
-        adminService.updateAccountStatus(updateAccountStatusDTO, authentication);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    public ResponseEntity<UsernameDTO> updateStatus(@RequestBody @Valid UpdateAccountStatusDTO updateAccountStatusDTO, Authentication authentication) {
+        return ResponseEntity.ok().body(adminService.updateAccountStatus(updateAccountStatusDTO, authentication));
     }
 
     @DeleteMapping("/user/delete")
-    public ResponseEntity<Void> deleteUser(@RequestBody @Valid UsernameDTO user, Authentication authentication) {
-        adminService.deleteAccount(user, authentication);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    public ResponseEntity<UsernameDTO> deleteUser(@RequestBody @Valid UsernameDTO user, Authentication authentication) {
+        return ResponseEntity.ok().body(adminService.deleteAccount(user, authentication));
     }
 
 

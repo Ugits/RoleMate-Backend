@@ -4,6 +4,7 @@ import org.jonas.rolemate_backend.exception.UserAlreadyExistsException;
 import org.jonas.rolemate_backend.user.authorites.UserRole;
 import org.jonas.rolemate_backend.user.model.dto.SignupRequestDTO;
 import org.jonas.rolemate_backend.user.model.dto.UserCredentialsDTO;
+import org.jonas.rolemate_backend.user.model.dto.UsernameDTO;
 import org.jonas.rolemate_backend.user.model.entity.CustomUser;
 import org.jonas.rolemate_backend.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,13 +49,13 @@ public class UserService {
         return new UserCredentialsDTO(customUser.getUsername(), customUser.getPassword());
     }
 
-    public void deleteAuthenticatedUser(Authentication authentication) {
+    public UsernameDTO deleteAuthenticatedUser(Authentication authentication) {
 
         if ((authentication != null && authentication.isAuthenticated())) {
             userRepository.findByUsername(authentication.getName())
                     .ifPresent(userRepository::delete);
-            return;
+            return new UsernameDTO(authentication.getName());
         }
-        throw new IllegalStateException("Not authentication found");
+        throw new IllegalStateException("No authentication found");
     }
 }

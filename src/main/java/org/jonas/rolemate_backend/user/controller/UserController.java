@@ -3,6 +3,7 @@ package org.jonas.rolemate_backend.user.controller;
 import jakarta.validation.Valid;
 import org.jonas.rolemate_backend.user.model.dto.SignupRequestDTO;
 import org.jonas.rolemate_backend.user.model.dto.UserCredentialsDTO;
+import org.jonas.rolemate_backend.user.model.dto.UsernameDTO;
 import org.jonas.rolemate_backend.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,9 +28,8 @@ public class UserController {
     }
 
     @DeleteMapping("/delete-me")
-    public ResponseEntity<UserCredentialsDTO> deleteMe(Authentication authentication) {
-        userService.deleteAuthenticatedUser(authentication);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    public ResponseEntity<UsernameDTO> deleteMe(Authentication authentication) {
+        return ResponseEntity.ok().body(userService.deleteAuthenticatedUser(authentication));
     }
 
 
