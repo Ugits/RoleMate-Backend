@@ -54,14 +54,9 @@ public class AppSecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/auth/**", "/user/register", "/admin/register").permitAll()
+                        .requestMatchers("/", "/auth/**", "/user/register").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers(
-                                "/dev/**",
-                                "/admin/register",
-                                "/user/delete-me",
-                                "/admin/user/delete",
-                                "/admin/user/status").permitAll()  // TODO - ONLY FOR DEV
+                        .requestMatchers("/dev/**").permitAll()  // TODO - ONLY FOR DEV
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(httpSecurityExceptionHandlingConfigurer -> httpSecurityExceptionHandlingConfigurer
