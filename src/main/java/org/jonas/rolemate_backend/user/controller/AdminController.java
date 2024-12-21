@@ -9,6 +9,7 @@ import org.jonas.rolemate_backend.user.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,14 +29,14 @@ public class AdminController {
     }
 
     @PatchMapping("/user/status")
-    public ResponseEntity<Void> updateStatus(@RequestBody @Valid UpdateAccountStatusDTO updateAccountStatusDTO) {
-        adminService.updateAccountStatus(updateAccountStatusDTO);
+    public ResponseEntity<Void> updateStatus(@RequestBody @Valid UpdateAccountStatusDTO updateAccountStatusDTO, Authentication authentication) {
+        adminService.updateAccountStatus(updateAccountStatusDTO, authentication);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @DeleteMapping("/user/delete")
-    public ResponseEntity<Void> deleteUser(@RequestBody @Valid UsernameDTO user) {
-        adminService.deleteAccount(user);
+    public ResponseEntity<Void> deleteUser(@RequestBody @Valid UsernameDTO user, Authentication authentication) {
+        adminService.deleteAccount(user, authentication);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
