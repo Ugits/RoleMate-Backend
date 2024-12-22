@@ -1,8 +1,10 @@
 package org.jonas.rolemate_backend.user.model.entity;
+import org.jonas.rolemate_backend.character.model.entity.CharacterEntity;
 import org.jonas.rolemate_backend.user.authorites.UserRole;
 import jakarta.persistence.*;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,6 +25,11 @@ public class CustomUser {
     private boolean isCredentialsNonExpired;
     private boolean isEnabled;
 
+    @OneToMany(
+            mappedBy = "owner",
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CharacterEntity> characters = new ArrayList<>();
+
     public CustomUser() {
 
     }
@@ -40,6 +47,7 @@ public class CustomUser {
     public List<SimpleGrantedAuthority> getAuthorities() {
         return role.getAuthorities();
     }
+
 
     public Long getId() {
         return id;
@@ -99,5 +107,13 @@ public class CustomUser {
 
     public void setEnabled(boolean enabled) {
         isEnabled = enabled;
+    }
+
+    public List<CharacterEntity> getCharacters() {
+        return characters;
+    }
+
+    public void setCharacters(List<CharacterEntity> characters) {
+        this.characters = characters;
     }
 }
