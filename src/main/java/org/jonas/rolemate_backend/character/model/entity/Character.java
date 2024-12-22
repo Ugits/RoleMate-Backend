@@ -6,7 +6,7 @@ import org.jonas.rolemate_backend.user.model.entity.CustomUser;
 
 @Entity
 @Table(name = "character")
-public class CharacterEntity {
+public class Character {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,10 +19,10 @@ public class CharacterEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private CustomUser owner;
 
-    public CharacterEntity() {
+    public Character() {
     }
 
-    public CharacterEntity(String name, int level, CustomUser owner) {
+    public Character(String name, int level, CustomUser owner) {
         this.name = name;
         this.level = level;
         this.owner = owner;
