@@ -1,16 +1,15 @@
 package org.jonas.rolemate_backend.character.controller;
 
 import org.jonas.rolemate_backend.character.model.dto.CharacterDTO;
+import org.jonas.rolemate_backend.character.model.dto.DeleteCharacterRequestDTO;
 import org.jonas.rolemate_backend.character.model.entity.CharacterEntity;
 import org.jonas.rolemate_backend.character.service.CharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/character")
@@ -32,6 +31,12 @@ public class CharacterController {
         CharacterEntity saved = characterService.createCharacter(currentUsername, characterDTO);
         CharacterDTO response = new CharacterDTO(saved.getId(), saved.getName(), saved.getLevel());
         return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deleteCharacter(@RequestBody DeleteCharacterRequestDTO deleteCharacterRequestDTO) {
+        characterService.deleteCharacter(deleteCharacterRequestDTO.id());
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }
