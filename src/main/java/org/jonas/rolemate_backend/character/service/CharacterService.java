@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CharacterService {
 
@@ -44,7 +46,14 @@ public class CharacterService {
                 .orElseThrow(() -> new CharacterNotFoundException("Character with ID: " + id + ", not found"));
 
         characterRepository.delete(character);
+    }
 
+    public List<CharacterEntity> getAllCharacters(String username) {
+
+        CustomUser user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Username " + username + " not found"));
+
+        return characterRepository.findByOwnerId(user.getId());
     }
 
 }

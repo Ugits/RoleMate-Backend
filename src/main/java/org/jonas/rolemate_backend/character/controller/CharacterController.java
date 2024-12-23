@@ -11,6 +11,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/character")
 public class CharacterController {
@@ -37,6 +41,23 @@ public class CharacterController {
     public ResponseEntity<Void> deleteCharacter(@RequestBody DeleteCharacterRequestDTO deleteCharacterRequestDTO) {
         characterService.deleteCharacter(deleteCharacterRequestDTO.id());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @GetMapping("/fetch-all")
+    public ResponseEntity<List<CharacterDTO>> fetchAllCharacters(
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        String currentUsername = userDetails.getUsername();
+        List<CharacterEntity> characterList = characterService.getAllCharacters(currentUsername);
+        List<CharacterDTO> response = characterList.stream()
+                .map(character ->
+                        new CharacterDTO(
+                                character.getId(),
+                                character.getName(),
+                                character.getLevel())
+                )
+                .toList();
+        return ResponseEntity.ok().body(response);
     }
 
 }
