@@ -24,7 +24,7 @@ public class ApiController {
         this.apiService = apiService;
     }
 
-    @GetMapping("/level")
+    @PostMapping("/level")
     public Mono<ResponseEntity<List<SpellDTO>>> getSpellsByLevel(
             @Valid @RequestBody CharacterLevelDTO characterLevelDTO) {
 
