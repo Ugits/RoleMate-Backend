@@ -34,6 +34,12 @@ public class CharacterService {
         CharacterEntity character = new CharacterEntity(
                 charDTO.name(),
                 charDTO.level(),
+                charDTO.strength(),
+                charDTO.dexterity(),
+                charDTO.constitution(),
+                charDTO.intelligence(),
+                charDTO.wisdom(),
+                charDTO.charisma(),
                 user
         );
         return characterRepository.save(character);
@@ -70,6 +76,12 @@ public class CharacterService {
         }
         character.setName(charDTO.name());
         character.setLevel(charDTO.level());
+        character.setStrength(charDTO.strength());
+        character.setDexterity(charDTO.dexterity());
+        character.setConstitution(charDTO.constitution());
+        character.setIntelligence(charDTO.intelligence());
+        character.setWisdom(charDTO.wisdom());
+        character.setCharisma(charDTO.charisma());
         characterRepository.save(character);
     }
 

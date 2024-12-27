@@ -32,7 +32,17 @@ public class CharacterController {
     ) {
         String currentUsername = userDetails.getUsername();
         CharacterEntity saved = characterService.createCharacter(currentUsername, characterDTO);
-        CharacterDTO response = new CharacterDTO(saved.getId(), saved.getName(), saved.getLevel());
+        CharacterDTO response = new CharacterDTO(
+                saved.getId(),
+                saved.getName(),
+                saved.getLevel(),
+                saved.getStrength(),
+                saved.getDexterity(),
+                saved.getConstitution(),
+                saved.getIntelligence(),
+                saved.getWisdom(),
+                saved.getCharisma()
+        );
         return ResponseEntity.ok(response);
     }
 
@@ -68,7 +78,7 @@ public class CharacterController {
         return ResponseEntity.ok().body(characterDTO);
     }
 
-    @GetMapping("/fetch")
+    @PostMapping("/fetch")
     public ResponseEntity<CharacterDTO> fetchCharacter(
             @AuthenticationPrincipal UserDetails userDetails,
             @Valid @RequestBody CharacterIdDTO characterIdDTO
