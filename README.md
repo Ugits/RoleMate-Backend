@@ -1,3 +1,5 @@
+![RoleMate project illustration](https://raw.githubusercontent.com/Ugits/RoleMate-Frontend/main/public/img/woo-chul-lee-11.jpg)
+
 # RoleMate — Backend
 
 RoleMate is a role-playing character manager with accounts, character sheets, and spell lookup. This repository contains the Java API used by the [RoleMate Frontend](https://github.com/Ugits/RoleMate-Frontend), a Next.js and TypeScript interface.
