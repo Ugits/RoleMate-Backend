@@ -136,4 +136,4 @@ These commands and test descriptions were checked against the source. No passing
 - Validation is incomplete: character update uses `@Valid`, while character creation does not. Frontend creation limits and backend DTO limits differ.
 - Authentication currently logs generated tokens, and registration returns a credentials DTO containing the password hash. These behaviors need revision before deployment.
 
-The backend is an implementation in development. Production readiness and a deployed environment have not been verified.
+RoleMate is under active development, with the current setup focused on local use.
